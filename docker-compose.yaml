@@ -1,0 +1,15 @@
+services:
+  api:
+    image: api
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    links:
+      - mongo
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
