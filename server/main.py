@@ -1,4 +1,4 @@
-import os
+"""Modeule socket to get hostname"""
 import socket
 from datetime import datetime
 from pymongo import MongoClient
@@ -18,12 +18,14 @@ if not collection.count_documents({"value": 0}):
 
 @app.route('/')
 def show_stat():
+    """Return value of counter"""
     counter = collection.find().sort('value', -1)[0]
     result = str(counter["value"])
     return result
 
 @app.route('/stat')
 def increment():
+    """Increase value of counter by 1, add data to database"""
     current_counter = collection.find().sort('value', -1)[0]
     current_datetime = datetime.now()
     client_info = request.user_agent
@@ -39,6 +41,7 @@ def increment():
 
 @app.route('/about')
 def hello():
+    """HA, GREETINGS"""
     html = "<h3>Hello {name}!</h3>" \
            "<b>Hostname:</b> {hostname}<br/>"
     return html.format(name="Георгий", hostname=socket.gethostname())
@@ -46,3 +49,4 @@ def hello():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
+ 
